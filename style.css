@@ -852,6 +852,7 @@ select { cursor: pointer; appearance: none;
   html { scroll-behavior: auto; }
   .archive-star, .ripple { opacity: 1 !important; transform: none !important; }
 }
+}
 .privacy-note {
   max-width: 1320px;
   margin: 0 auto;
