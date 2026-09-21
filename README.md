@@ -24,12 +24,12 @@ Underneath that loop sit the five ADDIE phases, plus a sixth reflective step:
 
 | Phase | What the learner decides |
 | --- | --- |
-| 1. Analyze | The performance problem, its root cause, the audience, whether learning is even the right solution, and what success would look like |
-| 2. Design | Learning objectives, an audience branch, and a lesson blueprint (ESA, TTT, CLIL, task-based, or exam preparation) |
-| 3. Develop | Delivery formats, an accessibility pass, chunking, and a pilot plan |
-| 4. Implement| Delivery mode, where the course lives, stakeholders, and a launch timeline |
-| 5. Evaluate | Summative assessment, completion tracking, which level of impact is being measured, and reinforcement |
-| 6. Improve | What the next pass should change |
+| 1.Analyze | The performance problem, its root cause, the audience, whether learning is even the right solution, and what success would look like |
+| 2.Design | Learning objectives, an audience branch, and a lesson blueprint (ESA, TTT, CLIL, task-based, or exam preparation) |
+| 3.Develop | Delivery formats, an accessibility pass, chunking, and a pilot plan |
+| 4.Implement| Delivery mode, where the course lives, stakeholders, and a launch timeline |
+| 5.Evaluate | Summative assessment, completion tracking, which level of impact is being measured, and reinforcement |
+| 6.Improve | What the next pass should change |
 
 Each phase ends with a "Check my work" review. Every entry the learner writes is carried forward into a downloadable course design outline, so the simulation produces a usable artefact rather than a completion screen.
 
