@@ -2,7 +2,7 @@
 
 An interactive, single-page simulation that teaches new instructional designers the ADDIE framework by having them design a real course instead of reading about the model.
 
-**Live app:** https://carmenk321publishing.github.io/ADDIE-Build-a-Burrow/
+**[Click Here to Visit the Live Website →](https://carmenk321publishing.github.io/ADDIE-Build-a-Burrow/)**
 
 <img width="1239" height="718" alt="Screenshot 2026-09-20 at 6 23 40 PM" src="https://github.com/user-attachments/assets/3e06f59b-0852-43a3-99f2-016adcb5d5fc"/>
  
