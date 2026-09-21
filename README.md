@@ -4,7 +4,7 @@ An interactive, single-page simulation that teaches new instructional designers 
 
 **Live app:** https://build-a-burrow.pplx.app
 
-![The Build-a-Burrow start screen, showing the five ADDIE phase cards and the progress panel](docs/screenshot.png)
+![The Build-a-Burrow start screen, showing the five ADDIE phase cards and the progress panel](screenshot.png)
 
 ---
 
