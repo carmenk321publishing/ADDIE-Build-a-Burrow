@@ -876,3 +876,23 @@ select { cursor: pointer; appearance: none;
   line-height: 1.5;
   text-align: center;
 }
+
+/* ---------- Atlantis Learning Archives credit ---------- */
+.atlantis-credit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 0 0 0.75rem;
+  opacity: 0.85;
+}
+.atlantis-credit img {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+.atlantis-credit span {
+  font-size: var(--text-xs);
+  font-style: italic;
+  color: var(--text-faint);
+}
