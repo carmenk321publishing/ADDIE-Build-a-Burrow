@@ -879,20 +879,18 @@ select { cursor: pointer; appearance: none;
 
 /* ---------- Atlantis Learning Archives credit ---------- */
 .atlantis-credit {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin: 0 0 0.75rem;
-  opacity: 0.85;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  margin: 0 0 12px; text-align: center;
 }
-.atlantis-credit img {
-  width: 20px;
-  height: 20px;
-  display: block;
+.atlantis-credit img { width: 44px; height: 44px; display: block; }
+.atlantis-credit span { font-size: 0.78rem; letter-spacing: 0.02em; color: var(--text-muted); }
+.atlantis-credit .ins-dark { display: none; }
+[data-theme="dark"] .atlantis-credit .ins-light { display: none; }
+[data-theme="dark"] .atlantis-credit .ins-dark { display: block; }
+
+/* ---------- Shared Atlantis footer ---------- */
+.site-footer {
+  max-width: 1080px; margin: 24px auto 0; padding: 28px 24px 36px;
+  border-top: 1px solid var(--divider); text-align: center;
 }
-.atlantis-credit span {
-  font-size: var(--text-xs);
-  font-style: italic;
-  color: var(--text-faint);
-}
+.site-footer .atlantis-credit { margin: 0; }
