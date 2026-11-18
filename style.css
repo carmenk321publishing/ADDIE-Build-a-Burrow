@@ -900,3 +900,13 @@ select { cursor: pointer; appearance: none;
 .checkgrid--rich .checkcard:has(input:checked) { font-weight: 400; }
 .checkgrid--rich .checkcard em { display: block; margin-top: .25rem; color: var(--text-muted); font-size: var(--text-sm); }
 h4.sub { font-size: var(--text-base, 1rem); margin-top: var(--space-4, 1rem); }
+
+/* Start page: process steps stacked as a heading above a bullet list */
+div.process-line { display: block; }
+div.process-line > p { display: flex; align-items: center; gap: var(--space-2); margin: 0 0 var(--space-2); }
+div.process-line .tick-list { margin: 0; }
+div.process-line .tick-list li { white-space: normal; }
+
+/* Phase cards: keep badge and title top-aligned even when a description wraps */
+.phase-card { display: flex; flex-direction: column; justify-content: flex-start; align-items: stretch; }
+.phase-card .pc-num { align-self: flex-start; }
