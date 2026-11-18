@@ -894,3 +894,9 @@ select { cursor: pointer; appearance: none;
   border-top: 1px solid var(--divider); text-align: center;
 }
 .site-footer .atlantis-credit { margin: 0; }
+
+/* Analyze: richer checkcards with definitions and examples */
+.checkgrid--rich { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.checkgrid--rich .checkcard:has(input:checked) { font-weight: 400; }
+.checkgrid--rich .checkcard em { display: block; margin-top: .25rem; color: var(--text-muted); font-size: var(--text-sm); }
+h4.sub { font-size: var(--text-base, 1rem); margin-top: var(--space-4, 1rem); }

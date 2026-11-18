@@ -31,7 +31,7 @@ const SYMCARE = sym('care');
    ========================================================== */
 /* Fields that belong to each phase, used for the "you didn't check this" nudge */
 const STAGE_FIELDS = {
-  analyze: '#a_problem, #a_audience, #a_root, #a_solution, #a_success',
+  analyze: '#a_goals, #a_now, #a_should, #a_why, #a_causes input, #a_audience, #a_measure, #a_methods input, #a_data, #a_conclusions, #a_recs, #a_rec_train, #a_rec_non, #a_rec_together',
   design: '#d_aud, #d_obj, #d_form',
   develop: '#vehicles input, #a11y input, #v_chunk',
   implement: '#i_mode, #i_home, #i_stake, #i_time',
@@ -121,8 +121,8 @@ $('#shopBtn').addEventListener('click', () => openModal('shopModal'));
 const PHASE_DETAIL = {
   analyze: {
     n: 1, title: 'Analyze — find the real problem',
-    body: 'Name the gap between what people do now and what they need to do, then ask why it exists. Knowledge and skill gaps respond to learning; motivation, tooling and process problems do not. Decide the smallest thing that could close it — sometimes a one-page job aid beats a course.',
-    fields: 'Problem and cause · learners · type of gap · chosen solution · definition of success',
+    body: 'Work through four steps: identify measurable goals with your stakeholders and SMEs, collect data, analyze it, then present your results and recommendations. Name the gap between what learners do now and what they should be doing, and ask why. Knowledge and skill gaps respond to training; motivation, environment and communication gaps usually need a different fix.',
+    fields: 'Goals · current vs. desired performance · causes of the gap · learners · measures · data collection · conclusions · training and non-training recommendations',
   },
   design: {
     n: 2, title: 'Design — set the goal and the shape',
@@ -525,39 +525,55 @@ function tone(score) { return score >= 2 ? 'good' : score >= 1 ? 'almost' : 'rev
 
 const CHECKS = {
   analyze() {
-    const p = val('a_problem'), a = val('a_audience'), r = val('a_root'), s = val('a_solution'), su = val('a_success');
+    const goals = val('a_goals'), now = val('a_now'), should = val('a_should'), why = val('a_why');
+    const aud = val('a_audience'), measure = val('a_measure'), data = val('a_data'), concl = val('a_conclusions');
+    const recs = val('a_recs'), train = val('a_rec_train'), non = val('a_rec_non'), together = val('a_rec_together');
+    const causes = $$('#a_causes input:checked').map(i => i.value);
+    const methods = $$('#a_methods input:checked').map(i => i.value);
+    const nonTraining = causes.filter(c => c !== 'Knowledge' && c !== 'Skill');
     const notes = [];
     let score = 2;
 
-    if (words(p) < 12) { notes.push('Your problem statement is very short. Push it to a full sentence or two — who is doing what now, and what does that cost?'); score -= 1; }
-    else notes.push({ ok: 'You described the problem in enough detail to work with.' });
-
-    const hasCause = /(because|due to|since|as a result of|the reason|caused by|nobody |no one |never )/i.test(p);
-    if (!hasCause) { notes.push('I can see the symptom but not the cause. Add a "because…" clause — a gap with no cause behind it usually gets solved with the wrong tool.'); score -= 1; }
-    else notes.push({ ok: 'You named a cause, not just a symptom. That is the part most people skip.' });
-
-    if (words(a) < 8) { notes.push('Sharpen the audience. How many people, what do they already know, and how much time do they realistically have?'); score -= 0.5; }
-    else notes.push({ ok: 'The audience is concrete enough to design for.' });
-
-    if (!r) { notes.push('Pick a gap type. It changes everything downstream.'); score -= 1; }
-    else if (r === 'motivation' || r === 'tools' || r === 'process') {
-      notes.push(`You have identified a ${r === 'motivation' ? 'motivation' : r} problem — which training usually cannot fix on its own. That is a genuinely useful finding: flag it to your stakeholder and pair any learning with the real fix.`);
-    } else notes.push({ ok: `A ${r} gap is squarely in learning-design territory. Good — a course can actually move this.` });
-
-    if (!s) { notes.push('Choose the smallest solution that could work. Reaching for "full course" by default is the most expensive habit in this field.'); score -= 1; }
-    else if (s === 'course' && /^(knowledge)$/.test(r) && words(p) < 25) {
-      notes.push('You have gone straight to a full course off a fairly short diagnosis. Worth a sanity check: would a one-pager or a single microlesson get most of the result for a tenth of the effort?');
+    if (words(goals) < 6) { notes.push('Write the goal as a full sentence. Ask your stakeholders and SMEs what they are trying to achieve.'); score -= 1; }
+    else if (!/\d|%|half|fewer|drop|reduce|increase|decrease|within|per |rate|less|more|observ|independ|consistent/i.test(goals)) {
+      notes.push('Your goal is directional but not measurable yet. Add a number, a timeframe, or an observable behavior so you can check it later.');
       score -= 0.5;
-    } else notes.push({ ok: 'You matched the size of the solution to the size of the problem.' });
+    } else notes.push({ ok: 'Your goal is measurable, which lays the foundation for judging whether your efforts worked.' });
 
-    if (words(su) < 6) { notes.push('Write down how you would know it worked, in observable terms. This sentence becomes your Evaluate phase later, so it is worth two minutes now.'); score -= 1; }
-    else if (!/\d|half|fewer|drop|reduce|increase|within|per |rate|less|more/i.test(su)) {
-      notes.push('Your success measure is directional but not measurable. Add a number, a timeframe, or a "compared to what".');
-      score -= 0.5;
-    } else notes.push({ ok: 'Your success measure is specific enough to actually check later.' });
+    const gapThin = [['what learners do now', now], ['what they should be doing', should], ['why they are not doing it', why]].filter(([, v]) => words(v) < 4);
+    if (gapThin.length) { notes.push('Fill in the gap questions a little more. Still thin: ' + gapThin.map(g => g[0]).join(', ') + '.'); score -= 1; }
+    else notes.push({ ok: 'You described current performance, desired performance, and the reason for the gap.' });
+
+    if (!causes.length) { notes.push('Tick at least one cause of the gap: knowledge, skill, motivation, environment or communication.'); score -= 1; }
+    else if (!nonTraining.length) notes.push({ ok: 'Your causes are knowledge or skill, which training can address directly.' });
+    else notes.push(`You ticked ${nonTraining.join(', ').toLowerCase()}, which training usually cannot fix on its own. That is a useful finding, so make sure your non-training recommendations address it.`);
+
+    if (words(aud) < 8) { notes.push('Sharpen the learner description. How many people, what do they already know, and how much time do they realistically have?'); score -= 0.5; }
+    else notes.push({ ok: 'The learners are described concretely enough to design for.' });
+
+    if (words(measure) < 6) { notes.push('Say what will be measured and how you will assess learners to confirm the goals were met. This becomes your Evaluate plan.'); score -= 1; }
+    else notes.push({ ok: 'You defined what will be measured and how learners will be assessed.' });
+
+    if (!methods.length) { notes.push('Choose how you will collect data: stakeholders and SMEs, learner feedback, your own observations, current trainers, or existing policies.'); score -= 1; }
+    else if (methods.length < 2) { notes.push('You are relying on a single data source. Add a second one so your conclusions do not rest on one point of view.'); score -= 0.5; }
+    else notes.push({ ok: `${methods.length} data sources selected, so your conclusions can be cross-checked.` });
+
+    if (words(data) < 8) { notes.push('Summarize what the data showed, qualitative and quantitative, even in a sentence or two.'); score -= 0.5; }
+
+    if (words(concl) < 8) { notes.push('Write your conclusions. What does the data tell you about the gap and its causes?'); score -= 1; }
+    else notes.push({ ok: 'Your conclusions are written down and ready to support your recommendations.' });
+
+    if (words(recs) < 6) { notes.push('Add your overall recommendations.'); score -= 1; }
+    if (!words(train) && !words(non)) { notes.push('Fill in at least one of the two boxes: training or non-training recommendations.'); score -= 1; }
+    else {
+      if (words(non) && !/because|why|since|so that|so |to fix|as |due to|which/i.test(non)) { notes.push('Explain why each non-training recommendation is needed.'); score -= 0.5; }
+      if (nonTraining.length && !words(non)) { notes.push('Your causes include non-training issues, but the non-training box is empty.'); score -= 0.5; }
+      if (words(train) && words(non) && words(together) < 4) notes.push('Add a line on how your training and non-training recommendations work together.');
+      else if (words(train) && words(non)) notes.push({ ok: 'Training and non-training recommendations are both covered and linked.' });
+    }
 
     const t = tone(score);
-    return { tone: t, title: t === 'good' ? 'The foundation is sound' : t === 'almost' ? 'Nearly sound — two things to firm up' : 'Worth digging a little deeper first', notes };
+    return { tone: t, title: t === 'good' ? 'The foundation is sound' : t === 'almost' ? 'Nearly sound, a few things to firm up' : 'Worth digging a little deeper first', notes };
   },
 
   design() {
@@ -880,13 +896,28 @@ function scrollData() {
   const veh = $$('#vehicles input:checked').map(i => i.value);
   const a11y = $$('#a11y input:checked').map(i => i.value);
   const missing = $$('#a11y input:not(:checked)').map(i => i.value);
+  const causes = $$('#a_causes input:checked').map(i => i.value);
+  const methods = $$('#a_methods input:checked').map(i => i.value);
   return [
-    ['1 · Analyze — the foundation', [
-      ['Problem and cause', val('a_problem') || NONE],
+    ['1 · Analyze, Part 1 — Analysis information (the stated problem and goals)', [
+      ['Goals (from stakeholders and SMEs)', val('a_goals') || NONE],
+      ['What learners should be doing', val('a_should') || NONE],
+      ['Why they are not doing it (the gap)', val('a_why') || NONE],
+      ['Causes of the gap', causes.length ? causes.join(', ') : NONE],
       ['Learners', val('a_audience') || NONE],
-      ['Type of gap', pick('a_root', { knowledge: 'Knowledge gap — they don’t know', skill: 'Skill gap — they know but can’t do it yet', motivation: 'Motivation gap — they can, but won’t', tools: 'Tools or environment problem', process: 'Process or policy problem' })],
-      ['Chosen solution', pick('a_solution', { 'job-aid': 'A one-page job aid or checklist', micro: 'A single microlesson (5–10 min)', course: 'A full self-paced course', live: 'A live workshop or webinar', blend: 'A blend of live and self-paced', 'not-training': 'Not training — a fix elsewhere' })],
-      ['Definition of success', val('a_success') || NONE],
+      ['What will be measured, and how learners will be assessed', val('a_measure') || NONE],
+    ]],
+    ['1 · Analyze, Part 2 — Current performance (observations and conclusions)', [
+      ['What learners are doing right now', val('a_now') || NONE],
+      ['Data collection methods', methods.length ? methods.join(', ') : NONE],
+      ['What the data showed', val('a_data') || NONE],
+      ['Conclusions', val('a_conclusions') || NONE],
+    ]],
+    ['1 · Analyze, Part 3 — Recommendations', [
+      ['Recommendations', val('a_recs') || NONE],
+      ['Training recommendations', val('a_rec_train') || NONE],
+      ['Non-training recommendations, and why', val('a_rec_non') || NONE],
+      ['How they work together', val('a_rec_together') || NONE],
     ]],
     ['2 · Design — the blueprint', [
       ['Audience', state.design.sub || state.design.aud || NONE],
@@ -1032,7 +1063,7 @@ function fireConfetti() {
    Saved progress (browser storage, degrades quietly)
    ========================================================== */
 const SAVE_KEY = 'burrow.v1';
-const TEXT_IDS = ['courseName', 'a_problem', 'a_audience', 'a_root', 'a_solution', 'a_success',
+const TEXT_IDS = ['courseName', 'a_goals', 'a_now', 'a_should', 'a_why', 'a_audience', 'a_measure', 'a_data', 'a_conclusions', 'a_recs', 'a_rec_train', 'a_rec_non', 'a_rec_together',
   'd_aud', 'd_sub', 'd_obj', 'd_form', 'v_chunk', 'i_mode', 'i_home', 'i_stake', 'i_time',
   'e_sum', 'e_track', 'e_level', 'e_data', 'im_next'];
 
@@ -1056,6 +1087,8 @@ function saveProgress() {
         checks: {
           vehicles: $$('#vehicles input:checked').map(i => i.value),
           a11y: $$('#a11y input:checked').map(i => i.value),
+          causes: $$('#a_causes input:checked').map(i => i.value),
+          methods: $$('#a_methods input:checked').map(i => i.value),
         },
         design: state.design,
         done: [...state.done],
@@ -1098,6 +1131,12 @@ function loadProgress() {
   });
   (data.checks?.a11y || []).forEach(v => {
     const el = $$('#a11y input').find(i => i.value === v); if (el) el.checked = true;
+  });
+  (data.checks?.causes || []).forEach(v => {
+    const el = $$('#a_causes input').find(i => i.value === v); if (el) el.checked = true;
+  });
+  (data.checks?.methods || []).forEach(v => {
+    const el = $$('#a_methods input').find(i => i.value === v); if (el) el.checked = true;
   });
 
   state.done = new Set(data.done || []);

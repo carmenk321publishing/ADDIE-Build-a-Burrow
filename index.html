@@ -130,59 +130,115 @@
     <section class="stage" data-stage="analyze">
       <p class="eyebrow"><svg class="sym" aria-hidden="true"><use href="#s-discovery"/></svg>Phase 1 of 5 — the foundation</p>
       <h2 class="stage-title display">Analyze</h2>
-      <p class="lede">Before anyone digs, work out what's actually wrong. The most common mistake in this whole field is starting with "we need a course" instead of "here's the gap, and here's why it exists." Sometimes the honest answer is a one-page job aid, a manager conversation, or fixing a broken tool.</p>
+      <p class="lede">Before anyone digs, work out what is actually wrong. Analysis has four steps: identify the goals, collect data, analyze the data, and present your results and recommendations. Keep everything high level here; the detail comes later.</p>
 
       <details class="tips" open>
         <summary><svg class="sym" aria-hidden="true"><use href="#s-learning"/></svg>Things worth considering</summary>
         <ul class="tick-list">
-          <li>Name the <strong>gap</strong>: what people do now vs. what they should do.</li>
-          <li>Ask <strong>why</strong> the gap exists — knowledge, skill, motivation, tools, or process? Only the first two are training problems.</li>
-          <li>Describe the audience concretely: how many, what they already know, how much time they have.</li>
-          <li>Decide the <strong>smallest thing that could work</strong>: job aid, email, 5-minute microlesson, or a full course.</li>
-          <li>Write down how you'd know the problem was solved. That sentence becomes your evaluation plan later.</li>
+          <li>Start with the <strong>goals</strong> your stakeholders and SMEs are trying to reach. Measurable goals let you check later whether your efforts worked.</li>
+          <li>Name the <strong>gap</strong>: what learners do now compared with what they should be doing, and why.</li>
+          <li>Only knowledge and skill gaps are true training problems. Motivation, environment and communication gaps usually need a different fix.</li>
+          <li>Base your conclusions on <strong>data</strong>, ideally from more than one source.</li>
+          <li>Your recommendations may include training, non-training fixes, or both working together.</li>
         </ul>
       </details>
 
+      <!-- STEP 1 -->
+      <h3 class="sub">Step 1: Identify the goals and the gap</h3>
+
       <div class="field">
-        <label for="a_problem">What's the problem, and why is it happening?</label>
-        <p class="hint">Try the shape: "Right now, <em>[who]</em> <em>[does X]</em>, which causes <em>[consequence]</em>. It's happening because <em>[cause]</em>."</p>
-        <textarea id="a_problem" rows="5" placeholder="Right now, new teachers share their whole desktop in class, which exposes personal tabs and slows the lesson. It's happening because nobody shows them the window-only option during onboarding."></textarea>
+        <label for="a_goals">What are the goals?</label>
+        <p class="hint">Ask your stakeholders and SMEs what they are trying to achieve. Each goal should be quantitative (a number) or qualitative (an observable change). Clear goals lay the foundation for measuring whether your efforts were successful.</p>
+        <textarea id="a_goals" rows="3" placeholder="Cut screen-share support tickets from new teachers by 50% within two months of onboarding."></textarea>
       </div>
+
+      <div class="field">
+        <label for="a_now">What are the learners doing right now?</label>
+        <textarea id="a_now" rows="3" placeholder="New teachers share their whole desktop during class, which exposes personal tabs and slows the lesson."></textarea>
+      </div>
+
+      <div class="field">
+        <label for="a_should">What should the learners be doing?</label>
+        <textarea id="a_should" rows="3" placeholder="Share a single window, so only the lesson material is visible."></textarea>
+      </div>
+
+      <div class="field">
+        <label for="a_why">Why aren't the learners doing this?</label>
+        <p class="hint">This is your gap: the distance between what learners do now and what they should be doing.</p>
+        <textarea id="a_why" rows="3" placeholder="Nobody shows them the window-only option during onboarding, and the help article shows an old menu."></textarea>
+      </div>
+
+      <h4 class="sub">What is causing the gap? Tick all that apply.</h4>
+      <div class="checkgrid checkgrid--rich" id="a_causes">
+        <label class="checkcard"><input type="checkbox" value="Knowledge"><span><strong>Knowledge</strong>: they don't know what to do or why. <em>Example: staff are unaware of a new refund policy.</em></span></label>
+        <label class="checkcard"><input type="checkbox" value="Skill"><span><strong>Skill</strong>: they know what to do but can't do it well yet. <em>Example: agents understand the CRM but are slow at logging tickets.</em></span></label>
+        <label class="checkcard"><input type="checkbox" value="Motivation"><span><strong>Motivation</strong>: they can, but have no reason to. <em>Example: the extra step earns no recognition and slows down their targets.</em></span></label>
+        <label class="checkcard"><input type="checkbox" value="Environment"><span><strong>Environment</strong>: tools, time or processes get in the way. <em>Example: the software is slow, or the checklist is out of date.</em></span></label>
+        <label class="checkcard"><input type="checkbox" value="Communication"><span><strong>Communication</strong>: expectations were unclear or never shared. <em>Example: managers never explained the new standard.</em></span></label>
+      </div>
+      <p class="hint">Knowledge and skill gaps are usually training problems. Motivation, environment and communication gaps usually need a non-training fix.</p>
 
       <div class="field">
         <label for="a_audience">Who are the learners? Be specific.</label>
         <textarea id="a_audience" rows="3" placeholder="About 40 new independent-contractor teachers per month, comfortable with tech, working across time zones, with roughly 20 minutes to spare."></textarea>
       </div>
 
+      <div class="field">
+        <label for="a_measure">What exactly will be measured, and how will you assess learners to confirm the goals were met?</label>
+        <p class="hint">This links straight back to your goals, and it becomes your Evaluate plan later.</p>
+        <textarea id="a_measure" rows="3" placeholder="Measure: screen-share tickets per new teacher each month. Assess: a short scenario check at the end of onboarding."></textarea>
+      </div>
+
+      <!-- STEP 2 -->
+      <h3 class="sub">Step 2: Collect the data</h3>
+      <p class="hint">How you collect data depends on the instruction needed and the goals. These universal methods work almost anywhere. Tick the ones you will use.</p>
+      <div class="checkgrid checkgrid--rich" id="a_methods">
+        <label class="checkcard"><input type="checkbox" value="Stakeholders and SMEs"><span><strong>Stakeholders and SMEs</strong>: talk to the people who requested the work and the experts who know the content.</span></label>
+        <label class="checkcard"><input type="checkbox" value="Learner feedback"><span><strong>Learner feedback</strong>: a survey, a phone call, or a group call with breakout rooms. This can give qualitative or quantitative results.</span></label>
+        <label class="checkcard"><input type="checkbox" value="Your own observations"><span><strong>Your own observations</strong>: watch the task being done and take notes.</span></label>
+        <label class="checkcard"><input type="checkbox" value="Current trainers"><span><strong>Current trainers</strong>: find out what has worked in the past and what hasn't.</span></label>
+        <label class="checkcard"><input type="checkbox" value="Existing policies"><span><strong>Existing policies</strong>: check whether current policies fulfill the need, or need adjusting or replacing.</span></label>
+      </div>
+
+      <div class="field">
+        <label for="a_data">What did the data show?</label>
+        <p class="hint">Summarize both the qualitative data (comments, observations) and the quantitative data (numbers, rates).</p>
+        <textarea id="a_data" rows="4" placeholder="Survey of 25 teachers: 18 had never seen the window-only option. The trainer says the demo was cut from onboarding last year. Tickets average 30 a month."></textarea>
+      </div>
+
+      <!-- STEP 3 -->
+      <h3 class="sub">Step 3: Analyze the data</h3>
+      <p class="hint">Picture a simple sheet: the goal at the top, then the data, then your conclusions.</p>
+      <div class="field">
+        <label for="a_conclusions">What conclusions have you drawn from the data?</label>
+        <textarea id="a_conclusions" rows="4" placeholder="The gap is mainly knowledge: most teachers were never shown the feature. The outdated help article (environment) makes it worse."></textarea>
+      </div>
+
+      <!-- STEP 4 -->
+      <h3 class="sub">Step 4: Present the results and your recommendations</h3>
+      <p class="hint">Your results sheet has three parts: (1) analysis information, meaning the stated problem and the goals, (2) current performance, meaning your observations and conclusions, and (3) your recommendations. Your downloadable outline lays these out for you.</p>
+
+      <div class="field">
+        <label for="a_recs">What are your recommendations?</label>
+        <textarea id="a_recs" rows="3" placeholder="Add a short demo to onboarding and update the outdated help article."></textarea>
+      </div>
+
       <div class="grid-2">
         <div class="field">
-          <label for="a_root">Is this really a learning gap?</label>
-          <select id="a_root">
-            <option value="">Choose one…</option>
-            <option value="knowledge">Knowledge gap — they don't know</option>
-            <option value="skill">Skill gap — they know but can't do it yet</option>
-            <option value="motivation">Motivation gap — they can, but won't</option>
-            <option value="tools">Tools or environment problem</option>
-            <option value="process">Process or policy problem</option>
-          </select>
+          <label for="a_rec_train">Training recommendations</label>
+          <p class="hint">Big picture only. If you already know, name the format, such as an online module or a one-pager.</p>
+          <textarea id="a_rec_train" rows="4" placeholder="A 5-minute online microlesson plus a one-page job aid."></textarea>
         </div>
         <div class="field">
-          <label for="a_solution">What's the smallest solution that could work?</label>
-          <select id="a_solution">
-            <option value="">Choose one…</option>
-            <option value="job-aid">A one-page job aid or checklist</option>
-            <option value="micro">A single microlesson (5–10 min)</option>
-            <option value="course">A full self-paced course</option>
-            <option value="live">A live workshop or webinar</option>
-            <option value="blend">A blend of live and self-paced</option>
-            <option value="not-training">Not training at all — a fix elsewhere</option>
-          </select>
+          <label for="a_rec_non">Non-training recommendations, and why</label>
+          <p class="hint">Say why each one is needed.</p>
+          <textarea id="a_rec_non" rows="4" placeholder="Update the help article, because it still shows the old menu."></textarea>
         </div>
       </div>
 
       <div class="field">
-        <label for="a_success">How will you know it worked?</label>
-        <textarea id="a_success" rows="3" placeholder="Screen-share support tickets from new teachers drop by half within two months of onboarding."></textarea>
+        <label for="a_rec_together">How will the training and non-training recommendations work together?</label>
+        <textarea id="a_rec_together" rows="2" placeholder="The updated article backs up the microlesson once teachers are in class."></textarea>
       </div>
 
       <div class="stage-foot">
